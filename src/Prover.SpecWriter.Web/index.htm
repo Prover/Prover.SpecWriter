@@ -1,0 +1,245 @@
+﻿<!DOCTYPE html>
+<!--[if lt IE 7 ]><html class="ie ie6" lang="en"> <![endif]-->
+<!--[if IE 7 ]><html class="ie ie7" lang="en"> <![endif]-->
+<!--[if IE 8 ]><html class="ie ie8" lang="en"> <![endif]-->
+<!--[if (gte IE 9)|!(IE)]><!--><html lang="en"> <!--<![endif]-->
+<head>
+    <title>Prover SpecWriter</title>
+
+
+    <!--[if lt IE 9]>
+		<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+
+	<!-- Mobile Specific Metas
+  ================================================== -->
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js" type="text/javascript"></script>
+	<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js"></script>
+	<script type="text/javascript" src="http://jonrohan.github.com/ZeroClipboard/javascripts/ZeroClipboard.min.js"></script>
+	<script type="text/javascript">
+
+	    $(function() {
+	        var $statusForm = $("#status-form");
+	        var $codeForm = $("#code-form");
+	        var $statusSubmit = $("#status-submit");
+
+	        // https://github.com/jonrohan/ZeroClipboard/blob/master/docs/instructions.md
+	        ZeroClipboard.setMoviePath("http://jonrohan.github.com/ZeroClipboard/javascripts/ZeroClipboard.swf");
+	        var clip = new ZeroClipboard.Client("#copy-code");
+	        $(window).resize(function() { clip.reposition(); });
+	        clip.on('mouseover', function(client, args) {
+	            clip.setText($("#code-display code").text());
+	        });
+
+	        $.ajaxSetup({
+	            url: location.href,
+	            dataType: "json",
+	            type: "GET"
+	        });
+
+	        var buttonClicked = function() {
+	            $.ajax({
+	                data: { target: this.id },
+	                type: (this.id.indexOf("status-submit") != -1 ? "GET" : "POST")
+	            }).done(function(data) {
+	                $statusForm.trigger('status-updated', data);
+	            }).fail(function(text) {
+	                $("#status").text(text);
+	            });
+	        };
+
+	        $statusForm.bind('status-updated', function(evt, data) {
+	            $("#status-form *[attr-display]").each(function() {
+	                var $t = $(this);
+	                var val = $.parseJSON($t.attr("attr-display"));
+	                if (val.running) $(this).css("display", data.running ? "table-row" : "none");
+	                else $t.css("display", data.running ? "none" : "table-row");
+	            });
+
+	            $("#status").text(data.status).effect('highlight');
+	            $("#status-count").text(data.count).effect('highlight');
+	        });
+
+	        $statusForm.attr("action", location.href).submit(function(submitEvt) { submitEvt.preventDefault(); });
+	        $codeForm.attr("action", location.href).submit(function(submitEvt) { submitEvt.preventDefault(); });
+
+	        $("#start-recording, #stop-recording, #clear-recording, #status-submit").click(buttonClicked);
+
+	        var refresh = function() {
+	            $statusSubmit.click();
+	            setTimeout(refresh, 2500);
+	        };
+
+	        setTimeout(refresh, 50);
+
+	        // look at http://viget.com/inspire/simple-jquery-solution-to-a-simple-problem
+	        // to fix spec rendering...
+
+	        $codeForm.attr("action", location.href).submit(function(submitEvt) {
+	            $.ajax({
+	                data: $(this).serialize(),
+	                type: "POST"
+	            }).done(function(data) {
+	                if (data && data.hasCode) {
+	                    $("#code-display").html(
+	                        $("<pre />").html(
+	                            $("<code class='cs' />").text(data.code)));
+	                }
+	            }).fail(function(jqxhr, text, error) {
+	                $("#status").text(error);
+	            });
+	            submitEvt.preventDefault();
+	        });
+	    });
+	</script>
+	
+	<!-- Skeleton.js -->
+	<link rel="stylesheet" href="http://www.getskeleton.com/src/stylesheets/base.css" />
+	<link rel="stylesheet" href="http://www.getskeleton.com/src/stylesheets/skeleton.css" />
+	<link rel="stylesheet" href="http://www.getskeleton.com/src/stylesheets/layout.css" />
+	
+	<!-- Highlight.js -->
+	<script src="http://softwaremaniacs.org/media/soft/highlight/highlight.pack.js"></script>
+	<script>
+	    hljs.tabReplace = '  ';
+	    hljs.initHighlightingOnLoad();
+	</script>
+    <style type="text/css">
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+.tomorrow-comment, pre .comment, pre .title {
+  color: #8e908c;
+}
+.tomorrow-red, pre .variable, pre .attribute, pre .tag, pre .regexp, pre .ruby .constant, pre .xml .tag .title, pre .xml .pi, pre .xml .doctype, pre .html .doctype, pre .css .id, pre .css .class, pre .css .pseudo {
+  color: #c82829;
+}
+.tomorrow-orange, pre .number, pre .preprocessor, pre .built_in, pre .literal, pre .params, pre .constant {
+  color: #f5871f;
+}
+.tomorrow-yellow, pre .class, pre .ruby .class .title, pre .css .rules .attribute {
+  color: #eab700;
+}
+.tomorrow-green, pre .string, pre .value, pre .inheritance, pre .header, pre .ruby .symbol, pre .xml .cdata {
+  color: #718c00;
+}
+.tomorrow-aqua, pre .css .hexcolor {
+  color: #3e999f;
+}
+.tomorrow-blue, pre .function, pre .python .decorator, pre .python .title, pre .ruby .function .title, pre .ruby .title .keyword, pre .perl .sub, pre .javascript .title, pre .coffeescript .title {
+  color: #4271ae;
+}
+.tomorrow-purple, pre .keyword, pre .javascript .function {
+  color: #8959a8;
+}
+pre code {
+  display: block;
+  background: white;
+  color: #4d4d4c;
+  padding: 0.5em;
+}
+pre .coffeescript .javascript,
+pre .javascript .xml,
+pre .tex .formula,
+pre .xml .javascript,
+pre .xml .vbscript,
+pre .xml .css,
+pre .xml .cdata {
+  opacity: 0.5;
+}
+
+/* custom */
+.code {
+  font: medium monospace;
+}
+.code .keyword {
+  font-weight: bold;
+}
+#code-display {
+    margin-bottom: 60px;
+}
+#status-count {
+    font-size: 500%;
+}
+body {
+    margin-top: 150px;
+}
+.helptext  {
+    clear: both;
+    font-size: x-small;
+    float: right;
+}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="three columns sidebar">
+            <h3>Current Status</h3>
+            <p id="status"></p>
+            <form id="status-form" method="POST">
+                <table>
+                    <tr>
+                        <td><input id="status-submit" type="submit" value="Refresh Status" /></td>
+                    </tr>
+                    <tr attr-display='{"running":false}'>
+                        <td><input id="start-recording"
+                                   type="submit"
+                                   value="Start Recording"/></td>
+                    </tr>
+                    <tr attr-display='{"running":true}'>
+                        <td>
+                            <input id="stop-recording"
+                                   type="submit"
+                                   value="Stop Recording"/>
+                        </td>
+                    </tr>
+                    <tr attr-display='{"running":false}'>
+                        <td>
+                            <input id="clear-recording"
+                                   type="submit"
+                                   value="Clear Recording"/>
+                        </td>
+                    </tr>
+                </table>
+                <h2 id="status-count">0</h2>
+                <p>method calls</p>
+            </form>
+        </div>
+        <div class="twelve columns offset-by-one content">
+            <h2>SpecWriter API</h2>
+            <button id="copy-code" title="Click to copy the code to the clipboard.">Copy Code</button>
+            <div class="code cs" id="code-display">
+                <pre><code>// Currently no code. Why not call some methods?</code></pre>
+            </div>
+            <form id="code-form">
+                <input type="hidden" name="target" id="target" value="render-spec"/>
+                <p>
+                    <label for="Title">Title:</label>
+                    <span class="helptext">This is the title of the spec</span>
+                    <input type="text" id="Title" name="Title"/>
+                </p>
+                <p>
+                    <label for="BoostrapClassName">Bootstrap Class Name:</label>
+                    <span class="helptext">This will be the used class name that boostraps your service</span>
+                    <input type="text" id="BoostrapClassName" name="BoostrapClassName"/>
+                </p>
+                <p>
+                    <label for="Namespace">Namespace:</label>
+                    <span class="helptext">This will be the namespace that the spec is placed in</span>
+                    <input type="text" id="Namespace" name="Namespace"/>
+                </p>
+                <p>
+                    <label for="Subject">Subject Variable Name:</label>
+                    <span class="helptext">This will be the name of the subject variable in the spec</span>
+                    <input type="text" id="Subject" name="Subject"/>
+                </p>
+                <p>
+                    <!-- the id becomes the server-side "target" -->
+                    <input type="submit" value="Render Spec"/>
+                </p>
+            </form>
+        </div>
+    </div>
+    
+</body>
+</html>
