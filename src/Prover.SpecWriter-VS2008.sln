@@ -1,11 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 10.00
 # Visual Studio 2008
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Prover.SpecWriter", "Prover.SpecWriter\Prover.SpecWriter.csproj", "{85FDE6F1-4FC1-4A0B-A4D6-61C1593F0B5B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Prover.SpecWriter", "Prover.SpecWriter\Prover.SpecWriter-VS2008.csproj", "{85FDE6F1-4FC1-4A0B-A4D6-61C1593F0B5B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Prover.SpecWriter.Specs", "Prover.SpecWriter.Specs\Prover.SpecWriter.Specs.csproj", "{ABB803B1-3BE8-4FF2-BA48-AA7057155478}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Prover.SpecWriter.Specs", "Prover.SpecWriter.Specs\Prover.SpecWriter.Specs-VS2008.csproj", "{ABB803B1-3BE8-4FF2-BA48-AA7057155478}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Prover.SpecWriter.Web", "Prover.SpecWriter.Web\Prover.SpecWriter.Web.csproj", "{B3140957-0791-442A-AD0A-67D2CEA4121A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Prover.SpecWriter.Web", "Prover.SpecWriter.Web\Prover.SpecWriter.Web-VS2008.csproj", "{B3140957-0791-442A-AD0A-67D2CEA4121A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
