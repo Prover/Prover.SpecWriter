@@ -165,4 +165,4 @@ of the components are visible in the facility source code (on the type `SpecWrit
 
 We have included a simple GUI that covered our use-cases.
 
-![A simple SpecWriter GUI](https://raw.github.com/Prover/Prover.SpecWriter/doc/image.jpg "This is what it looks like when it's running.")
+![A simple SpecWriter GUI](https://raw.github.com/Prover/Prover.SpecWriter/master/doc/ScreenShot-Recording.png "This is what it looks like when it's running.")
