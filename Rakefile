@@ -25,6 +25,7 @@ namespace :nuget do
 		c.version = ENV['NUGET_VERSION']
 		c.out     = 'build/pkg'
 		c.exe     = 'src/.nuget/NuGet.exe'
+		c.description = %{Prover SpecWriter is a project that makes it easy to record interactions between and targeted at objects living in a CLR process; and then serialize these interactions to a specification or unit-test.}
   end
 
 	desc "release a new version #{`semver`}"
