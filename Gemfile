@@ -5,3 +5,4 @@ gem "rake"
 gem "semver2"
 gem "nokogiri"
 gem "albacore", :git => "git://github.com/Albacore/albacore.git", :branch => 'clean_slate'
+#gem "albacore", :path => '../albacore'
